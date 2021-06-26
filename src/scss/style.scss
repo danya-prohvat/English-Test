@@ -87,10 +87,17 @@ h1 {
   background-color: #FFFFFF;
   border-radius: 7px;
   box-shadow: -2px 2px 16px -1px rgba(0, 0, 0, 0.29);
+  &__part{
 
+  }
+  .hidden{
+    display: none;
+  }
   .buttons {
     padding-top: 35px;
-
+    .button-hidden{
+      display: none;
+    }
     button {
       margin-right: 20px;
       cursor: pointer;
