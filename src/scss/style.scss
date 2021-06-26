@@ -1,0 +1,129 @@
+@import "resset.scss";
+
+body {
+  background-color: #F2F2F2;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 30px;
+  margin-bottom: 60px;
+}
+
+.pagination-desktop {
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: space-around;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__item {
+    p {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__circle {
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    margin-left: 8px;
+    margin-right: 8px;
+    box-shadow: 3px 3px 15px -5px rgba(0, 0, 0, 0.59);
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f5f5f5;
+      transition: .2s;
+    }
+
+    span {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+    }
+  }
+}
+
+.pagination-mobile {
+  display: none;
+  padding-top: 30px;
+  margin: 0 auto;
+  width: 300px;
+
+  &__container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__item {
+    span {
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+    }
+  }
+}
+
+.questions {
+  padding: 60px 50px;
+  background-color: #FFFFFF;
+  border-radius: 7px;
+  box-shadow: -2px 2px 16px -1px rgba(0, 0, 0, 0.29);
+
+  .buttons {
+    padding-top: 35px;
+
+    button {
+      margin-right: 20px;
+      cursor: pointer;
+      //border-radius: 50%;
+      height: 40px;
+      padding-left: 40px;
+      padding-right: 40px;
+      font-size: 18px;
+      border-radius: 100px;
+      min-width: 100px;
+      box-shadow: 5px 1px 17px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .button_transparent {
+      color: #B23E5A;
+      background-color: transparent;
+      border: 2px solid #B23E5A;
+      //display: none;
+      &:hover {
+        background-color: #B23E5A;
+        color: #FFFFFF;
+        transition: .2s;
+      }
+    }
+
+    .button_orange {
+      border: none;
+      background-color: #FFAC01;
+
+      &:hover {
+        background-color: #ffc141;
+        transition: .2s;
+      }
+    }
+  }
+}
