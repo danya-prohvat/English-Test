@@ -1,7 +1,7 @@
 const partOfQuestion = document.querySelectorAll('.questions__part');
 
 const deskPagination = document.querySelectorAll('.pagination-desktop__circle'),
-      mobilePagination = document.querySelectorAll('.pagination-mobile__item');
+    mobilePagination = document.querySelectorAll('.pagination-mobile__item');
 
 const bntBack = document.querySelector('.back'),
     bntNext = document.querySelector('.next'),
@@ -27,8 +27,7 @@ mobilePagination.forEach((el, i) => {
 
 bntBack.addEventListener('click', () => renderAll(--currentPart));
 bntNext.addEventListener('click', () => renderAll(++currentPart));
-
-// bntShowResult.addEventListener('click', () => {});
+bntShowResult.addEventListener('click', () => showResult());
 
 function print(part) {
     partOfQuestion.forEach((el, i) => {
@@ -53,4 +52,27 @@ function checkPagination(part) {
     });
 }
 
+const answersObject = {
+    grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
+};
 
+function showResult() {
+    let grammarArr = [];
+    let grammarCounter = 0;
+    document.querySelectorAll('.grammar-questions').forEach((el, i) => {
+        let ib = "input[name=grammar-question" + +(i + 1) + ']';
+        grammarArr.push(document.querySelectorAll(ib));
+    });
+    grammarCounter = isCorrect(grammarArr, answersObject.grammar);
+    console.log(grammarCounter);
+}
+
+function isCorrect(questionArr, answersArr) {
+    let c = 0;
+    questionArr.forEach((questionEl, i) => {
+        questionEl.forEach((answersEl) => {
+            if (answersEl.checked && answersEl.value == answersArr[i]) c++;
+        });
+    });
+    return c;
+}

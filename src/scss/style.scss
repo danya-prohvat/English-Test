@@ -94,7 +94,59 @@ h1 {
   box-shadow: -2px 2px 16px -1px rgba(0, 0, 0, 0.29);
 
   &__part {
+    h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
 
+    .question-block {
+      font-family: 'Oswald', sans-serif;
+      margin-bottom: 35px;
+
+      &__header {
+        color: gray;
+        margin-bottom: 15px;
+        font-size: 15px;
+      }
+
+      &__question {
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      &__container {
+        .radio-input {
+          margin-bottom: 10px;
+        }
+        .radio-input input[type=radio] {
+          display: none;
+        }
+        .radio-input label {
+          display: inline-block;
+          cursor: pointer;
+          position: relative;
+          padding-left: 25px;
+          margin-right: 0;
+          line-height: 18px;
+          user-select: none;
+        }
+        .radio-input label:before {
+          content: "";
+          display: inline-block;
+          width: 17px;
+          height: 18px;
+          position: absolute;
+          left: 0;
+          bottom: 1px;
+          background: url(../img/imgradio1.png) 0 0 no-repeat;
+        }
+
+        .radio-input input[type=radio]:checked + label:before {
+          background: url(../img/imgradio2.png) 0 0 no-repeat;
+        }
+      }
+    }
   }
 
   .hidden {
