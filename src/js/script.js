@@ -53,17 +53,26 @@ function checkPagination(part) {
 }
 
 const answersObject = {
+    listening: [2, 2, 2, 2, 3, 2],
     grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
 };
 
 function showResult() {
-    let grammarArr = [];
+    let grammarQuestionList = [];
+    let listeningQuestionList = [];
     let grammarCounter = 0;
+    let listeningCounter = 0;
     document.querySelectorAll('.grammar-questions').forEach((el, i) => {
-        let ib = "input[name=grammar-question" + +(i + 1) + ']';
-        grammarArr.push(document.querySelectorAll(ib));
+        let selector = "input[name=grammar-question" + +(i + 1) + ']';
+        grammarQuestionList.push(document.querySelectorAll(selector));
     });
-    grammarCounter = isCorrect(grammarArr, answersObject.grammar);
+    document.querySelectorAll('.listening-questions').forEach((el, i) => {
+        let selector = "input[name=listening-question" + +(i + 1) + ']';
+        listeningQuestionList.push(document.querySelectorAll(selector));
+    });
+    grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
+    listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
+    console.log(listeningCounter);
     console.log(grammarCounter);
 }
 
