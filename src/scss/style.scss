@@ -7,7 +7,7 @@ body {
 }
 
 .wrapper {
-  width: 100%;
+  width: 94%;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -60,6 +60,11 @@ h1 {
       font-size: 16px;
     }
   }
+
+  .checked {
+    background-color: #B23E5A;
+    color: #FFFFFF;
+  }
 }
 
 .pagination-mobile {
@@ -87,17 +92,22 @@ h1 {
   background-color: #FFFFFF;
   border-radius: 7px;
   box-shadow: -2px 2px 16px -1px rgba(0, 0, 0, 0.29);
-  &__part{
+
+  &__part {
 
   }
-  .hidden{
+
+  .hidden {
     display: none;
   }
+
   .buttons {
     padding-top: 35px;
-    .button-hidden{
+
+    .button-hidden {
       display: none;
     }
+
     button {
       margin-right: 20px;
       cursor: pointer;
@@ -132,5 +142,19 @@ h1 {
         transition: .2s;
       }
     }
+  }
+}
+
+@media (min-width: 320px) and (max-width: 720px) {
+  .pagination-desktop {
+    display: none
+  }
+
+  .wrapper {
+    width: 96%;
+  }
+
+  .pagination-mobile {
+    display: block;
   }
 }

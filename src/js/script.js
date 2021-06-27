@@ -1,6 +1,7 @@
 const partOfQuestion = document.querySelectorAll('.questions__part');
 
-const deskPagination = document.querySelectorAll('.pagination-desktop__circle');
+const deskPagination = document.querySelectorAll('.pagination-desktop__circle'),
+      mobilePagination = document.querySelectorAll('.pagination-mobile__item');
 
 const bntBack = document.querySelector('.back'),
     bntNext = document.querySelector('.next'),
@@ -8,18 +9,32 @@ const bntBack = document.querySelector('.back'),
 
 let currentPart = 1;
 
-print(currentPart);
+const renderAll = (part = 1) => {
+    currentPart = part;
+    print(part);
+    showBtn(part);
+    checkPagination(part);
+}
+renderAll();
 
 deskPagination.forEach((el, i) => {
-    el.addEventListener('click', () => print(i+1));
+    el.addEventListener('click', () => renderAll(i + 1));
 });
+
+mobilePagination.forEach((el, i) => {
+    el.addEventListener('click', () => renderAll(i + 1));
+});
+
+bntBack.addEventListener('click', () => renderAll(--currentPart));
+bntNext.addEventListener('click', () => renderAll(++currentPart));
+
+// bntShowResult.addEventListener('click', () => {});
 
 function print(part) {
     partOfQuestion.forEach((el, i) => {
-        if (i+1 === part) el.classList.remove('hidden');
+        if (i + 1 === part) el.classList.remove('hidden');
         else el.classList.add('hidden');
     });
-    showBtn(part);
 }
 
 function showBtn(part) {
@@ -31,6 +46,11 @@ function showBtn(part) {
     else bntNext.classList.add('button-hidden')
 }
 
-bntBack.addEventListener('click', () => print(--currentPart));
-bntNext.addEventListener('click', () => print(++currentPart));
-// bntShowResult.addEventListener('click', () => {});
+function checkPagination(part) {
+    deskPagination.forEach((el, i) => {
+        if (i + 1 === part) el.classList.add('checked');
+        else el.classList.remove('checked');
+    });
+}
+
+
