@@ -100,10 +100,34 @@ h1 {
       margin-bottom: 20px;
     }
 
+
     .audio-block {
       margin-bottom: 20px;
       display: flex;
       align-items: center;
+      &__container{
+        position: relative;
+      }
+      &__progress-bar {
+        height: 3px;
+        width: 200px;
+        background-color: #535353;
+        margin-right: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      &__pointer {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        position: absolute;
+        background-color: #535353;
+        transform: translateX(-8px);
+        left: 0;
+        bottom: -6.5px;
+      }
+
 
       &__plPs {
         margin-right: 10px;
@@ -142,8 +166,9 @@ h1 {
           content: "⏸";
         }
       }
-      &__time{
-        span{
+
+      &__time {
+        span {
           font-family: 'Oswald', sans-serif;
 
         }

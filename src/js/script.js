@@ -116,9 +116,9 @@ for (let i = 1; i <= 3; i++) {
 
 audioFilesArr.forEach((el, i) => {
     el.addEventListener('loadedmetadata', (e) => {
-        let min = Math.floor(e.target.duration/60);
-        let sec = Math.floor(e.target.duration%60) <= 9 ? Math.floor(e.target.duration%60) + '0' : Math.floor(e.target.duration%60);
-        audioTimeFiled[i].innerHTML =  min + ':' + sec;
+        let min = Math.floor(e.target.duration / 60);
+        let sec = Math.floor(e.target.duration % 60) <= 9 ? Math.floor(e.target.duration % 60) + '0' : Math.floor(e.target.duration % 60);
+        audioTimeFiled[i].innerHTML = min + ':' + sec;
     });
 });
 
@@ -140,10 +140,39 @@ function toggleAudioBtn(el, i) {
     }
 }
 
-function playAudio(i) {
+function playAudio(i, screenX) {
+    if (screenX) {
+        audioFilesArr[i].currentTime = Math.floor((audioFilesArr[i].duration / 200) * screenX);
+        console.log(Math.floor((audioFilesArr[i].duration / 200) * screenX))
+        audioBtn[i].classList.add('pause');
+        audioBtn[i].classList.remove('play');
+    }
     audioFilesArr[i].play();
+    // progressBarObserver(i);
 }
 
 function pauseAudio(i) {
     audioFilesArr[i].pause();
+}
+
+// function progressBarObserver(i) {
+//     setInterval(() => {
+//         console.log(Math.floor((audioFilesArr[i].duration)));
+//         progressPointer[i].style.left = Math.floor((audioFilesArr[i].duration * 200)) + 'px';
+//     }, 1000)
+// }
+
+
+const progressBar = document.querySelectorAll('.audio-block__progress-bar');
+const progressPointer = document.querySelectorAll('.audio-block__pointer');
+
+progressBar.forEach((el, i) => {
+    el.addEventListener('click', event => {
+        setPointer(event.screenX - document.querySelectorAll('.audio-block__container')[i].offsetLeft, i);
+    });
+});
+
+function setPointer(screenX, ind) {
+    progressPointer[ind].style.left = screenX + 'px';
+    playAudio(ind, screenX);
 }
