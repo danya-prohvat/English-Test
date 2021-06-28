@@ -5,6 +5,7 @@ let path = {
 	build:{
 		html: project_folder + "/",
 		slick: project_folder + "/slick/",
+		audio: project_folder + "/audio/",
 		css: project_folder + "/css/",
 		js: project_folder + "/js/",
 		img: project_folder + "/img/",
@@ -14,6 +15,7 @@ let path = {
 		html: [source_folder + "/*.html", "!" + source_folder + "/_*.html"],
 		css: source_folder + "/scss/style.scss",
 		slick: source_folder + "/slick/**",
+		audio: source_folder + "/audio/**",
 		js: source_folder + "/js/script.js",
 		img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
 		fonts: source_folder + "/fonts/*ttf"
@@ -22,6 +24,7 @@ let path = {
 		html: source_folder + "/**/*.html",
 		css: source_folder + "/scss/**/*.scss",
 		slick: source_folder + "/slick/**",
+		audio: source_folder + "/audio/**",
 		js: source_folder + "/js/**/*.js",
 		img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}"
 	},
@@ -92,6 +95,12 @@ function slick(){
 		.pipe(dest(path.build.slick))
 		.pipe(browsersync.stream())
 }
+function audio(){
+	return src(path.src.audio)
+		// .pipe(fileinclude())
+		.pipe(dest(path.build.audio))
+		.pipe(browsersync.stream())
+}
 
 function js(){
 	return src(path.src.js)
@@ -129,6 +138,7 @@ function watchFiles(params){
 	gulp.watch([path.watch.html], html);
 	gulp.watch([path.watch.css], css);
 	gulp.watch([path.watch.css], slick);
+	gulp.watch([path.watch.css], audio);
 	gulp.watch([path.watch.js], js);
 	gulp.watch([path.watch.img], images);
 }
@@ -137,7 +147,7 @@ function clean(params){
 	return del(path.clean);
 }
 
-let build = gulp.series(clean, gulp.parallel(js, css, slick, html, images));
+let build = gulp.series(clean, gulp.parallel(js, css, slick, audio, html, images));
 let watch = gulp.parallel(build, watchFiles, browserSync);
 
 exports.images = images;

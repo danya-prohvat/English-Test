@@ -100,6 +100,56 @@ h1 {
       margin-bottom: 20px;
     }
 
+    .audio-block {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+
+      &__plPs {
+        margin-right: 10px;
+        height: 40px;
+        width: 40px;
+        background-color: #FFAC01;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        box-shadow: 1px 1px 17px 0px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background-color: #ffb927;
+        }
+
+        &:before {
+          width: 30px;
+          height: 30px;
+          font-size: 35px;
+          line-height: 20px;
+          position: absolute;
+          color: white;
+          left: 3.5px;
+          bottom: 0;
+        }
+      }
+
+      .play {
+        &:before {
+          content: "⏵";
+        }
+      }
+
+      .pause {
+        &:before {
+          content: "⏸";
+        }
+      }
+      &__time{
+        span{
+          font-family: 'Oswald', sans-serif;
+
+        }
+      }
+    }
+
     .question-block {
       font-family: 'Oswald', sans-serif;
       margin-bottom: 35px;
@@ -119,9 +169,11 @@ h1 {
         .radio-input {
           margin-bottom: 10px;
         }
+
         .radio-input input[type=radio] {
           display: none;
         }
+
         .radio-input label {
           display: inline-block;
           cursor: pointer;
@@ -131,6 +183,7 @@ h1 {
           line-height: 18px;
           user-select: none;
         }
+
         .radio-input label:before {
           content: "";
           display: inline-block;

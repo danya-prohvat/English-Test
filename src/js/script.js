@@ -85,3 +85,65 @@ function isCorrect(questionArr, answersArr) {
     });
     return c;
 }
+
+// function play() {
+//     let audio = new Audio();
+//     // audio.currentTime = 5;
+//     audio.src = 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3';
+//     audio.play();
+//     // console.log(audio);
+//     // setTimeout(() => {
+//     //     audio.pause();
+//     // }, 1000)
+//     // console.log(audio);
+//     audio.addEventListener('loadedmetadata', (e) => {
+//         console.log(e.target.duration);
+//     });
+// }
+//
+// play();
+
+// document.addEventListener( 'load',play)
+
+
+const audioBtn = document.querySelectorAll('.audio-block__plPs');
+const audioTimeFiled = document.querySelectorAll('.audio-block__time > span');
+
+let audioFilesArr = [];
+for (let i = 1; i <= 3; i++) {
+    audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'))
+}
+
+audioFilesArr.forEach((el, i) => {
+    el.addEventListener('loadedmetadata', (e) => {
+        let min = Math.floor(e.target.duration/60);
+        let sec = Math.floor(e.target.duration%60) <= 9 ? Math.floor(e.target.duration%60) + '0' : Math.floor(e.target.duration%60);
+        audioTimeFiled[i].innerHTML =  min + ':' + sec;
+    });
+});
+
+audioBtn.forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+        toggleAudioBtn(el, i);
+    })
+});
+
+function toggleAudioBtn(el, i) {
+    if (el.classList.contains('play')) {
+        el.classList.remove('play');
+        el.classList.add('pause');
+        playAudio(i);
+    } else {
+        el.classList.add('play');
+        el.classList.remove('pause');
+        pauseAudio(i);
+    }
+}
+
+function playAudio(i) {
+    audioFilesArr[i].play();
+}
+
+function pauseAudio(i) {
+    audioFilesArr[i].pause();
+}
