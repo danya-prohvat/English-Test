@@ -105,9 +105,11 @@ h1 {
       margin-bottom: 20px;
       display: flex;
       align-items: center;
-      &__container{
+
+      &__container {
         position: relative;
       }
+
       &__progress-bar {
         height: 3px;
         width: 200px;
@@ -275,7 +277,7 @@ h1 {
   }
 }
 
-@media (min-width: 320px) and (max-width: 720px) {
+@media (min-width: 500px) and (max-width: 720px) {
   .pagination-desktop {
     display: none
   }
@@ -288,3 +290,45 @@ h1 {
     display: block;
   }
 }
+
+@media (min-width: 320px) and (max-width: 499px) {
+  body {
+    background-color: #FFFFFF;
+  }
+  .pagination-desktop {
+    display: none
+  }
+
+  .wrapper {
+    width: 100%;
+  }
+
+  .pagination-mobile {
+    display: block;
+  }
+  .questions {
+    padding: 40px 20px;
+    box-shadow: none;
+
+    .buttons {
+      padding-top: 35px;
+
+      display: flex;
+      justify-content: space-around;
+
+      button {
+        margin-right: 0;
+        cursor: pointer;
+        //border-radius: 50%;
+        height: 40px;
+        padding-left: 30px;
+        padding-right: 30px;
+        font-size: 18px;
+        border-radius: 100px;
+        min-width: 80px;
+        box-shadow: 5px 1px 17px 0px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
