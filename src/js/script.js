@@ -53,6 +53,7 @@ function checkPagination(part) {
 }
 
 const answersObject = {
+    reading: [2, 2, 3, 3, 3, 3, 2],
     listening: [2, 2, 2, 2, 3, 2],
     grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
 };
@@ -60,8 +61,10 @@ const answersObject = {
 function showResult() {
     let grammarQuestionList = [];
     let listeningQuestionList = [];
+    let readingQuestionList = [];
     let grammarCounter = 0;
     let listeningCounter = 0;
+    let readingCounter = 0;
     document.querySelectorAll('.grammar-questions').forEach((el, i) => {
         let selector = "input[name=grammar-question" + +(i + 1) + ']';
         grammarQuestionList.push(document.querySelectorAll(selector));
@@ -70,10 +73,16 @@ function showResult() {
         let selector = "input[name=listening-question" + +(i + 1) + ']';
         listeningQuestionList.push(document.querySelectorAll(selector));
     });
+    document.querySelectorAll('.reading-questions').forEach((el, i) => {
+        let selector = "input[name=reading-question" + +(i + 1) + ']';
+        readingQuestionList.push(document.querySelectorAll(selector));
+    });
     grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
     listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
+    readingCounter = isCorrect(readingQuestionList, answersObject.reading);
     console.log(listeningCounter);
     console.log(grammarCounter);
+    console.log(readingCounter);
 }
 
 function isCorrect(questionArr, answersArr) {
@@ -86,93 +95,97 @@ function isCorrect(questionArr, answersArr) {
     return c;
 }
 
-// function play() {
-//     let audio = new Audio();
-//     // audio.currentTime = 5;
-//     audio.src = 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3';
-//     audio.play();
-//     // console.log(audio);
-//     // setTimeout(() => {
-//     //     audio.pause();
-//     // }, 1000)
-//     // console.log(audio);
-//     audio.addEventListener('loadedmetadata', (e) => {
-//         console.log(e.target.duration);
-//     });
-// }
-//
-// play();
 
-// document.addEventListener( 'load',play)
+const audioBlock = () => {
+    const audioBtn = document.querySelectorAll('.audio-block__plPs'),
+        audioTimeFiled = document.querySelectorAll('.audio-block__time > span'),
+        progressBar = document.querySelectorAll('.audio-block__progress-bar'),
+        progressPointer = document.querySelectorAll('.audio-block__pointer');
 
+    let audioFilesArr = [];
+    for (let i = 1; i <= 3; i++) {
+        audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'))
+    }
 
-const audioBtn = document.querySelectorAll('.audio-block__plPs');
-const audioTimeFiled = document.querySelectorAll('.audio-block__time > span');
-
-let audioFilesArr = [];
-for (let i = 1; i <= 3; i++) {
-    audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'))
-}
-
-audioFilesArr.forEach((el, i) => {
-    el.addEventListener('loadedmetadata', (e) => {
-        let min = Math.floor(e.target.duration / 60);
-        let sec = Math.floor(e.target.duration % 60) <= 9 ? Math.floor(e.target.duration % 60) + '0' : Math.floor(e.target.duration % 60);
-        audioTimeFiled[i].innerHTML = min + ':' + sec;
+    audioFilesArr.forEach((el, ind) => {
+        el.addEventListener('loadedmetadata', event => {
+            setVideoDuration(event, ind);
+            progressBarObserver(event, ind);
+        });
     });
-});
 
-audioBtn.forEach((el, i) => {
-    el.addEventListener('click', (e) => {
-        toggleAudioBtn(el, i);
-    })
-});
+    audioBtn.forEach((el, i) => {
+        el.addEventListener('click', () => audioHandler(i))
+    });
 
-function toggleAudioBtn(el, i) {
-    if (el.classList.contains('play')) {
-        el.classList.remove('play');
-        el.classList.add('pause');
-        playAudio(i);
-    } else {
-        el.classList.add('play');
-        el.classList.remove('pause');
-        pauseAudio(i);
+    progressBar.forEach((el, ind) => {
+        el.addEventListener('click', event => {
+            countTime(ind, event);
+            toggleAudioBtn(ind, true);
+            playAudio(ind);
+        });
+    });
+
+    function setVideoDuration(event, ind) {
+        let min = Math.floor(event.target.duration / 60);
+        let sec = Math.floor(event.target.duration % 60) <= 9 ? Math.floor(event.target.duration % 60) + '0' : Math.floor(event.target.duration % 60);
+        audioTimeFiled[ind].innerHTML = min + ':' + sec;
+    }
+
+    function audioHandler(ind) {
+        if (audioBtn[ind].classList.contains('play')) {
+            toggleAudioBtn(ind, true);
+            playAudio(ind);
+        } else {
+            pauseAudio(ind);
+            toggleAudioBtn(ind, false);
+        }
+    }
+
+    function toggleAudioBtn(ind, bool) {
+        if (bool) {
+            audioBtn[ind].classList.remove('play');
+            audioBtn[ind].classList.add('pause');
+        } else {
+            audioBtn[ind].classList.add('play');
+            audioBtn[ind].classList.remove('pause');
+        }
+    }
+
+    function countTime(ind, event) {
+        let screenX = Math.floor(event.screenX - document.querySelectorAll('.audio-block__container')[ind].offsetLeft);
+        let time = Math.floor((audioFilesArr[ind].duration / 200) * screenX);
+        setPointer(screenX, ind);
+        setCurrentTime(ind, time);
+    }
+
+    function progressBarObserver(event, ind) {
+        setInterval(() => {
+            let screenX = Math.ceil((200 / audioFilesArr[ind].duration) * audioFilesArr[ind].currentTime);
+            setPointer(screenX, ind);
+            if (screenX >= 200) {
+                setCurrentTime(ind, 1)
+                pauseAudio(ind);
+                setPointer(screenX, ind);
+                toggleAudioBtn(ind, false);
+            }
+        }, 200)
+    }
+
+    function playAudio(ind) {
+        audioFilesArr[ind].play();
+    }
+
+    function pauseAudio(ind) {
+        audioFilesArr[ind].pause();
+    }
+
+    function setCurrentTime(ind, time) {
+        audioFilesArr[ind].currentTime = time;
+    }
+
+    function setPointer(screenX, ind) {
+        progressPointer[ind].style.left = screenX + 'px';
     }
 }
-
-function playAudio(i, screenX) {
-    if (screenX) {
-        audioFilesArr[i].currentTime = Math.floor((audioFilesArr[i].duration / 200) * screenX);
-        console.log(Math.floor((audioFilesArr[i].duration / 200) * screenX))
-        audioBtn[i].classList.add('pause');
-        audioBtn[i].classList.remove('play');
-    }
-    audioFilesArr[i].play();
-    // progressBarObserver(i);
-}
-
-function pauseAudio(i) {
-    audioFilesArr[i].pause();
-}
-
-// function progressBarObserver(i) {
-//     setInterval(() => {
-//         console.log(Math.floor((audioFilesArr[i].duration)));
-//         progressPointer[i].style.left = Math.floor((audioFilesArr[i].duration * 200)) + 'px';
-//     }, 1000)
-// }
-
-
-const progressBar = document.querySelectorAll('.audio-block__progress-bar');
-const progressPointer = document.querySelectorAll('.audio-block__pointer');
-
-progressBar.forEach((el, i) => {
-    el.addEventListener('click', event => {
-        setPointer(event.screenX - document.querySelectorAll('.audio-block__container')[i].offsetLeft, i);
-    });
-});
-
-function setPointer(screenX, ind) {
-    progressPointer[ind].style.left = screenX + 'px';
-    playAudio(ind, screenX);
-}
+audioBlock();
