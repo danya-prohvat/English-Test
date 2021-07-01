@@ -1,112 +1,112 @@
-const partOfQuestion = document.querySelectorAll('.questions__part');
+const Pagination = () => {
+    const partOfQuestion = document.querySelectorAll('.questions__part'),
+        deskPagination = document.querySelectorAll('.pagination-desktop__circle'),
+        mobilePagination = document.querySelectorAll('.pagination-mobile__item'),
+        bntBack = document.querySelector('.back'),
+        bntNext = document.querySelector('.next'),
+        bntShowResult = document.querySelector('.showResult');
 
-const deskPagination = document.querySelectorAll('.pagination-desktop__circle'),
-    mobilePagination = document.querySelectorAll('.pagination-mobile__item');
+    let currentPart = 1;
 
-const bntBack = document.querySelector('.back'),
-    bntNext = document.querySelector('.next'),
-    bntShowResult = document.querySelector('.showResult');
+    const renderAll = (part = 1) => {
+        currentPart = part;
+        print(part);
+        showBtn(part);
+        checkPagination(part);
+    }
+    renderAll();
 
-let currentPart = 1;
+    deskPagination.forEach((el, i) => el.addEventListener('click', () => renderAll(i + 1)));
+    mobilePagination.forEach((el, i) => el.addEventListener('click', () => renderAll(i + 1)));
 
-const renderAll = (part = 1) => {
-    currentPart = part;
-    print(part);
-    showBtn(part);
-    checkPagination(part);
-}
-renderAll();
+    bntBack.addEventListener('click', () => renderAll(--currentPart));
+    bntNext.addEventListener('click', () => renderAll(++currentPart));
 
-deskPagination.forEach((el, i) => {
-    el.addEventListener('click', () => renderAll(i + 1));
-});
-
-mobilePagination.forEach((el, i) => {
-    el.addEventListener('click', () => renderAll(i + 1));
-});
-
-bntBack.addEventListener('click', () => renderAll(--currentPart));
-bntNext.addEventListener('click', () => renderAll(++currentPart));
-bntShowResult.addEventListener('click', () => showResult());
-
-function print(part) {
-    partOfQuestion.forEach((el, i) => {
-        if (i + 1 === part) el.classList.remove('hidden');
-        else el.classList.add('hidden');
-    });
-}
-
-function showBtn(part) {
-    if (part === 11) bntShowResult.classList.remove('button-hidden');
-    else bntShowResult.classList.add('button-hidden')
-    if (part !== 1) bntBack.classList.remove('button-hidden');
-    else bntBack.classList.add('button-hidden')
-    if (part !== 11) bntNext.classList.remove('button-hidden');
-    else bntNext.classList.add('button-hidden')
-}
-
-function checkPagination(part) {
-    deskPagination.forEach((el, i) => {
-        if (i + 1 === part) el.classList.add('checked');
-        else el.classList.remove('checked');
-    });
-}
-
-const answersObject = {
-    reading: [2, 2, 3, 3, 3, 3, 2],
-    listening: [2, 2, 2, 2, 3, 2],
-    grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
-};
-
-function showResult() {
-    let grammarQuestionList = [];
-    let listeningQuestionList = [];
-    let readingQuestionList = [];
-    let wordsQuestionList = [];
-    let grammarCounter = 0;
-    let listeningCounter = 0;
-    let readingCounter = 0;
-    let wordsCounter = 0;
-    document.querySelectorAll('.grammar-questions').forEach((el, i) => {
-        let selector = "input[name=grammar-question" + +(i + 1) + ']';
-        grammarQuestionList.push(document.querySelectorAll(selector));
-    });
-    document.querySelectorAll('.listening-questions').forEach((el, i) => {
-        let selector = "input[name=listening-question" + +(i + 1) + ']';
-        listeningQuestionList.push(document.querySelectorAll(selector));
-    });
-    document.querySelectorAll('.reading-questions').forEach((el, i) => {
-        let selector = "input[name=reading-question" + +(i + 1) + ']';
-        readingQuestionList.push(document.querySelectorAll(selector));
-    });
-    for (let i = 0; i < 42; i++) wordsQuestionList.push(document.querySelector("input[name=words" + +(i + 1) + ']'));
-    grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
-    listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
-    readingCounter = isCorrect(readingQuestionList, answersObject.reading);
-    wordsCounter = wordsIsCorrect(wordsQuestionList);
-    console.log(listeningCounter);
-    console.log(grammarCounter);
-    console.log(readingCounter);
-    console.log(wordsCounter);
-}
-
-function isCorrect(questionArr, answersArr) {
-    let c = 0;
-    questionArr.forEach((questionEl, i) => {
-        questionEl.forEach((answersEl) => {
-            if (answersEl.checked && answersEl.value == answersArr[i]) c++;
+    function print(part) {
+        partOfQuestion.forEach((el, i) => {
+            if (i + 1 === part) el.classList.remove('hidden');
+            else el.classList.add('hidden');
         });
-    });
-    return c;
-}
+    }
 
-function wordsIsCorrect(words) {
-    let c = 0;
-    words.forEach(word => {
-        if (word.checked) c++;
-    });
-    return c;
+    function showBtn(part) {
+        if (part === 11) bntShowResult.classList.remove('button-hidden');
+        else bntShowResult.classList.add('button-hidden')
+        if (part !== 1) bntBack.classList.remove('button-hidden');
+        else bntBack.classList.add('button-hidden')
+        if (part !== 11) bntNext.classList.remove('button-hidden');
+        else bntNext.classList.add('button-hidden')
+    }
+
+    function checkPagination(part) {
+        deskPagination.forEach((el, i) => {
+            if (i + 1 === part) el.classList.add('checked');
+            else el.classList.remove('checked');
+        });
+    }
 }
+Pagination();
+
+const showResult = () => {
+    document.querySelector('.showResult').addEventListener('click', () => showResult());
+
+    const answersObject = {
+        reading: [2, 2, 3, 3, 3, 3, 2],
+        listening: [2, 2, 2, 2, 3, 2],
+        grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
+    };
+
+    function showResult() {
+        let grammarQuestionList = [];
+        let listeningQuestionList = [];
+        let readingQuestionList = [];
+        let wordsQuestionList = [];
+        let grammarCounter = 0;
+        let listeningCounter = 0;
+        let readingCounter = 0;
+        let wordsCounter = 0;
+        document.querySelectorAll('.grammar-questions').forEach((el, i) => {
+            let selector = "input[name=grammar-question" + +(i + 1) + ']';
+            grammarQuestionList.push(document.querySelectorAll(selector));
+        });
+        document.querySelectorAll('.listening-questions').forEach((el, i) => {
+            let selector = "input[name=listening-question" + +(i + 1) + ']';
+            listeningQuestionList.push(document.querySelectorAll(selector));
+        });
+        document.querySelectorAll('.reading-questions').forEach((el, i) => {
+            let selector = "input[name=reading-question" + +(i + 1) + ']';
+            readingQuestionList.push(document.querySelectorAll(selector));
+        });
+        for (let i = 0; i < 42; i++) wordsQuestionList.push(document.querySelector("input[name=words" + +(i + 1) + ']'));
+        grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
+        listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
+        readingCounter = isCorrect(readingQuestionList, answersObject.reading);
+        wordsCounter = wordsIsCorrect(wordsQuestionList);
+        console.log(listeningCounter);
+        console.log(grammarCounter);
+        console.log(readingCounter);
+        console.log(wordsCounter);
+    }
+
+    function isCorrect(questionArr, answersArr) {
+        let c = 0;
+        questionArr.forEach((questionEl, i) => {
+            questionEl.forEach((answersEl) => {
+                if (answersEl.checked && answersEl.value == answersArr[i]) c++;
+            });
+        });
+        return c;
+    }
+
+    function wordsIsCorrect(words) {
+        let c = 0;
+        words.forEach(word => {
+            if (word.checked) c++;
+        });
+        return c;
+    }
+}
+showResult();
 
 
 const audioBlock = () => {
