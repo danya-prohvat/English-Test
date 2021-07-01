@@ -92,12 +92,23 @@ h1 {
   background-color: #FFFFFF;
   border-radius: 7px;
   box-shadow: -2px 2px 16px -1px rgba(0, 0, 0, 0.29);
-
+  &__text{
+    margin-top: 25px;
+    margin-bottom: 40px;
+    p{
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 25px;
+      font-family: 'Oswald', sans-serif;
+    }
+  }
   .words {
 
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-top: 50px;
+    margin-bottom: 20px;
 
     &__item {
       border: 1px solid #bbbbbb;
@@ -105,7 +116,7 @@ h1 {
       width: 200px;
       margin-bottom: 20px;
 
-      & input[type=radio] {
+      & input[type=checkbox] {
         display: none;
       }
 
@@ -144,7 +155,7 @@ h1 {
 
       }
 
-      & input[type=radio]:checked + label:before {
+      & input[type=checkbox]:checked + label:before {
         background: url(../img/2.svg) 50% 50% no-repeat;
         background-color: #FFAC01;
 

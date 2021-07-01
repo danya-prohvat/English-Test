@@ -62,9 +62,11 @@ function showResult() {
     let grammarQuestionList = [];
     let listeningQuestionList = [];
     let readingQuestionList = [];
+    let wordsQuestionList = [];
     let grammarCounter = 0;
     let listeningCounter = 0;
     let readingCounter = 0;
+    let wordsCounter = 0;
     document.querySelectorAll('.grammar-questions').forEach((el, i) => {
         let selector = "input[name=grammar-question" + +(i + 1) + ']';
         grammarQuestionList.push(document.querySelectorAll(selector));
@@ -77,12 +79,15 @@ function showResult() {
         let selector = "input[name=reading-question" + +(i + 1) + ']';
         readingQuestionList.push(document.querySelectorAll(selector));
     });
+    for (let i = 0; i < 42; i++) wordsQuestionList.push(document.querySelector("input[name=words" + +(i + 1) + ']'));
     grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
     listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
     readingCounter = isCorrect(readingQuestionList, answersObject.reading);
+    wordsCounter = wordsIsCorrect(wordsQuestionList);
     console.log(listeningCounter);
     console.log(grammarCounter);
     console.log(readingCounter);
+    console.log(wordsCounter);
 }
 
 function isCorrect(questionArr, answersArr) {
@@ -91,6 +96,14 @@ function isCorrect(questionArr, answersArr) {
         questionEl.forEach((answersEl) => {
             if (answersEl.checked && answersEl.value == answersArr[i]) c++;
         });
+    });
+    return c;
+}
+
+function wordsIsCorrect(words) {
+    let c = 0;
+    words.forEach(word => {
+        if (word.checked) c++;
     });
     return c;
 }
