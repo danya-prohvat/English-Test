@@ -92,16 +92,32 @@ h1 {
   background-color: #FFFFFF;
   border-radius: 7px;
   box-shadow: -2px 2px 16px -1px rgba(0, 0, 0, 0.29);
-  &__text{
+
+  &__text {
     margin-top: 25px;
     margin-bottom: 40px;
-    p{
+
+    p {
       margin-top: 20px;
       font-size: 18px;
       line-height: 25px;
       font-family: 'Oswald', sans-serif;
+      select {
+        cursor: pointer;
+        font-size: 16px;
+        font-family: 'Oswald', sans-serif;
+        border: 1px solid #B7B7B7;
+        border-radius: 4px;
+        background-color: #FFFFFF;
+        outline: none;
+        option{
+          &:hover {
+          }
+        }
+      }
     }
   }
+
   .words {
 
     display: flex;
@@ -129,7 +145,8 @@ h1 {
         line-height: 40px;
         font-family: 'Oswald', sans-serif;
         user-select: none;
-        &:hover{
+
+        &:hover {
           &:before {
             border: 1px solid red;
             box-sizing: border-box;

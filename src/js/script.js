@@ -52,6 +52,7 @@ const showResult = () => {
 
     const answersObject = {
         reading: [2, 2, 3, 3, 3, 3, 2],
+        readingText: ['of','plants','a','as','up'],
         listening: [2, 2, 2, 2, 3, 2],
         grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
     };
@@ -60,6 +61,7 @@ const showResult = () => {
         let grammarQuestionList = [];
         let listeningQuestionList = [];
         let readingQuestionList = [];
+        let readingTextList = [];
         let wordsQuestionList = [];
         let grammarCounter = 0;
         let listeningCounter = 0;
@@ -78,9 +80,11 @@ const showResult = () => {
             readingQuestionList.push(document.querySelectorAll(selector));
         });
         for (let i = 0; i < 42; i++) wordsQuestionList.push(document.querySelector("input[name=words" + +(i + 1) + ']'));
+        for (let i = 1; i <= 5; i++) readingTextList.push(document.querySelector(".reading-select" + i));
         grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
         listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
         readingCounter = isCorrect(readingQuestionList, answersObject.reading);
+        readingCounter += readingOptionsIsCorrect(readingTextList, answersObject.readingText);
         wordsCounter = wordsIsCorrect(wordsQuestionList);
         console.log(listeningCounter);
         console.log(grammarCounter);
@@ -97,6 +101,13 @@ const showResult = () => {
         });
         return c;
     }
+    function readingOptionsIsCorrect(questionArr, answersArr) {
+        let c = 0;
+        questionArr.forEach((answersEl, i) => {
+            if (answersEl.value === answersArr[i]) c++;
+            });
+        return c;
+    }
 
     function wordsIsCorrect(words) {
         let c = 0;
@@ -107,7 +118,6 @@ const showResult = () => {
     }
 }
 showResult();
-
 
 const audioBlock = () => {
     const audioBtn = document.querySelectorAll('.audio-block__plPs'),
@@ -202,3 +212,14 @@ const audioBlock = () => {
     }
 }
 audioBlock();
+
+
+console.log(document.querySelector('.reading-select1').value)
+
+
+
+
+
+
+
+
