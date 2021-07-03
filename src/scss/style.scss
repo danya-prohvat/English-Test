@@ -19,6 +19,7 @@ h1 {
   margin-bottom: 60px;
 }
 
+
 .pagination-desktop {
   padding-bottom: 50px;
   display: flex;
@@ -102,6 +103,7 @@ h1 {
       font-size: 18px;
       line-height: 25px;
       font-family: 'Oswald', sans-serif;
+
       select {
         cursor: pointer;
         font-size: 16px;
@@ -110,7 +112,8 @@ h1 {
         border-radius: 4px;
         background-color: #FFFFFF;
         outline: none;
-        option{
+
+        option {
           &:hover {
           }
         }
@@ -185,6 +188,7 @@ h1 {
       font-family: 'Oswald', sans-serif;
       font-size: 24px;
       margin-bottom: 20px;
+      line-height: 30px;
     }
 
 
@@ -215,6 +219,7 @@ h1 {
         transform: translateX(-8px);
         left: 0;
         bottom: -6.5px;
+        cursor: pointer;
       }
 
 
@@ -277,6 +282,9 @@ h1 {
       &__question {
         margin-bottom: 15px;
         font-size: 18px;
+        span{
+          line-height: 26px;
+        }
       }
 
       &__container {
@@ -294,7 +302,7 @@ h1 {
           position: relative;
           padding-left: 25px;
           margin-right: 0;
-          line-height: 18px;
+          line-height: 20px;
           user-select: none;
         }
 
@@ -305,7 +313,7 @@ h1 {
           height: 18px;
           position: absolute;
           left: 0;
-          bottom: 1px;
+          top: 0;
           background: url(../img/imgradio1.png) 0 0 no-repeat;
         }
 
@@ -364,6 +372,23 @@ h1 {
   }
 }
 
+.result{
+  h4{
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    margin-bottom: 30px;
+    line-height: 45px;
+    span{
+      font-size: 32px;
+      text-transform: uppercase;
+    }
+  }
+  &__marks{
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 12px;
+  }
+}
+
 @media (min-width: 500px) and (max-width: 720px) {
   .pagination-desktop {
     display: none
@@ -416,6 +441,17 @@ h1 {
         box-shadow: 5px 1px 17px 0px rgba(0, 0, 0, 0.2);
       }
     }
+
+    &__part {
+      h3 {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+    }
+    .words {
+      justify-content: center;
+    }
+
   }
 }
 

@@ -52,7 +52,7 @@ const showResult = () => {
 
     const answersObject = {
         reading: [2, 2, 3, 3, 3, 3, 2],
-        readingText: ['of','plants','a','as','up'],
+        readingText: ['of', 'plants', 'a', 'as', 'up', 'pay', 'manage', 'for', 'granted', 'obtain', 'use', 'end up'],
         listening: [2, 2, 2, 2, 3, 2],
         grammar: [1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3, 2],
     };
@@ -63,10 +63,7 @@ const showResult = () => {
         let readingQuestionList = [];
         let readingTextList = [];
         let wordsQuestionList = [];
-        let grammarCounter = 0;
-        let listeningCounter = 0;
-        let readingCounter = 0;
-        let wordsCounter = 0;
+
         document.querySelectorAll('.grammar-questions').forEach((el, i) => {
             let selector = "input[name=grammar-question" + +(i + 1) + ']';
             grammarQuestionList.push(document.querySelectorAll(selector));
@@ -79,17 +76,43 @@ const showResult = () => {
             let selector = "input[name=reading-question" + +(i + 1) + ']';
             readingQuestionList.push(document.querySelectorAll(selector));
         });
+
         for (let i = 0; i < 42; i++) wordsQuestionList.push(document.querySelector("input[name=words" + +(i + 1) + ']'));
-        for (let i = 1; i <= 5; i++) readingTextList.push(document.querySelector(".reading-select" + i));
-        grammarCounter = isCorrect(grammarQuestionList, answersObject.grammar);
-        listeningCounter = isCorrect(listeningQuestionList, answersObject.listening);
-        readingCounter = isCorrect(readingQuestionList, answersObject.reading);
-        readingCounter += readingOptionsIsCorrect(readingTextList, answersObject.readingText);
-        wordsCounter = wordsIsCorrect(wordsQuestionList);
-        console.log(listeningCounter);
-        console.log(grammarCounter);
-        console.log(readingCounter);
-        console.log(wordsCounter);
+        for (let i = 1; i <= 12; i++) readingTextList.push(document.querySelector(".reading-select" + i));
+
+        let testMark = [];
+        testMark[0] = wordsIsCorrect(wordsQuestionList);
+        testMark[1] = isCorrect(readingQuestionList, answersObject.reading);
+        testMark[1] += readingOptionsIsCorrect(readingTextList, answersObject.readingText);
+        testMark[2] = isCorrect(listeningQuestionList, answersObject.listening);
+        testMark[3] = isCorrect(grammarQuestionList, answersObject.grammar);
+
+        document.querySelector('.questions').innerHTML = '<div class="result"><h4>Your level of english - <span style="color:#FFAC01;">' + takeLevel(testMark) + '</span></h4>' +
+            '<p class="result__marks">Your total amount known words: ' + testMark[0] * 72 + '</p>' +
+            '<p class="result__marks">Reading mark: ' + takeMark(testMark[1], 19) + '/19</p>' +
+            '<p class="result__marks">Listening mark: ' + takeMark(testMark[2], 6) + '/6</p>' +
+            '<p class="result__marks">Grammar mark: ' + takeMark(testMark[3], 15) + '/15</p>' +
+            '</div>';
+    }
+
+    function takeMark(currentMark, maxMark) {
+        let color;
+
+        if (currentMark <= maxMark / 3) color = 'red';
+        else if (currentMark <= maxMark / 2) color = 'brown';
+        else color = 'green';
+
+        return '<span style="color:' + color + ';">' + currentMark + '</span>';
+    }
+
+    function takeLevel(testMark) {
+        let mark = testMark.reduce((sum, el, ind) => ind === 0 ? sum + Math.floor(el / 7) : sum + el, 0);
+        if (mark <= 6) return 'Beginner';
+        else if (mark <= 14) return 'Elementary';
+        else if (mark <= 26) return 'Pre-intermediate';
+        else if (mark <= 32) return 'Intermediate';
+        else if (mark <= 40) return 'Upper-intermediate';
+        else return 'Advanced';
     }
 
     function isCorrect(questionArr, answersArr) {
@@ -101,11 +124,12 @@ const showResult = () => {
         });
         return c;
     }
+
     function readingOptionsIsCorrect(questionArr, answersArr) {
         let c = 0;
         questionArr.forEach((answersEl, i) => {
             if (answersEl.value === answersArr[i]) c++;
-            });
+        });
         return c;
     }
 
@@ -126,9 +150,8 @@ const audioBlock = () => {
         progressPointer = document.querySelectorAll('.audio-block__pointer');
 
     let audioFilesArr = [];
-    for (let i = 1; i <= 3; i++) {
-        audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'))
-    }
+    for (let i = 1; i <= 3; i++)
+        audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'));
 
     audioFilesArr.forEach((el, ind) => {
         el.addEventListener('loadedmetadata', event => {
@@ -137,15 +160,28 @@ const audioBlock = () => {
         });
     });
 
-    audioBtn.forEach((el, i) => {
-        el.addEventListener('click', () => audioHandler(i))
-    });
+    audioBtn.forEach((el, i) => el.addEventListener('click', () => audioHandler(i)));
 
     progressBar.forEach((el, ind) => {
         el.addEventListener('click', event => {
             countTime(ind, event);
             toggleAudioBtn(ind, true);
             playAudio(ind);
+        });
+    });
+
+    progressPointer.forEach((el, ind) => {
+        el.addEventListener('drag', (event) => {
+            countTime(ind, event);
+            pauseAudio(ind);
+        })
+    });
+
+    progressPointer.forEach((el, ind) => {
+        el.addEventListener('dragend', (event) => {
+            toggleAudioBtn(ind, true);
+            playAudio(ind);
+            countTime(ind, event);
         });
     });
 
@@ -210,16 +246,6 @@ const audioBlock = () => {
     function setPointer(screenX, ind) {
         progressPointer[ind].style.left = screenX + 'px';
     }
+
 }
 audioBlock();
-
-
-console.log(document.querySelector('.reading-select1').value)
-
-
-
-
-
-
-
-
