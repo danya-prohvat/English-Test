@@ -151,7 +151,8 @@ const audioBlock = () => {
 
     let audioFilesArr = [];
     for (let i = 1; i <= 3; i++)
-        audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'));
+        // audioFilesArr.push(new Audio('../audio/audio_' + i + '.mp3'));
+        audioFilesArr.push(new Audio('./audio/audio_' + i + '.mp3'));
 
     audioFilesArr.forEach((el, ind) => {
         el.addEventListener('loadedmetadata', event => {
